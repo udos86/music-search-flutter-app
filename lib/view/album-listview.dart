@@ -13,8 +13,8 @@ class AlbumListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ITunesSearchBloc iTunesSearchBloc =
-        MusicSearchProvider.of(context, musicSearchBlocKey.iTunes) as ITunesSearchBloc;
+    final MusicSearchBloc iTunesSearchBloc =
+        MusicSearchProvider.of(context, MusicServiceName.iTunes);
 
     iTunesSearchBloc.search.add(MusicSearch("Ryan Adams", MusicSearchType.album));
 

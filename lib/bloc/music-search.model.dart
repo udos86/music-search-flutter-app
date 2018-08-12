@@ -1,3 +1,5 @@
+enum MusicServiceName { iTunes, spotify }
+
 enum MusicSearchType { album }
 
 class MusicSearch {

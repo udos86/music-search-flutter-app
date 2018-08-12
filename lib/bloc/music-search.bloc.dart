@@ -7,9 +7,11 @@ import 'package:music_search_flutter_app/bloc/music-search.model.dart';
 import 'package:music_search_flutter_app/model/album.model.dart';
 import 'package:rxdart/subjects.dart';
 
-abstract class MusicSearchBloc {
+class MusicSearchBloc {
   final _albumsController = BehaviorSubject<List<Album>>(seedValue: []);
   final _searchController = StreamController<MusicSearch>();
+
+  final MusicSearchEndpointBuilder _endpointBuilder;
 
   Sink<MusicSearch> get search => _searchController.sink; //@Input
 
@@ -17,9 +19,7 @@ abstract class MusicSearchBloc {
 
   List<StreamSubscription<dynamic>> _subscriptions;
 
-  MusicSearchEndpointBuilder _endpointBuilder;
-
-  MusicSearchBloc() {
+  MusicSearchBloc(this._endpointBuilder) {
     _subscriptions = <StreamSubscription<dynamic>>[_searchController.stream.listen(_get)];
   }
 
@@ -47,8 +47,4 @@ abstract class MusicSearchBloc {
       _albumsController.add(albums);
     }
   }
-}
-
-class ITunesSearchBloc extends MusicSearchBloc {
-  final MusicSearchEndpointBuilder _endpointBuilder = ITunesEndpointBuilder();
 }
