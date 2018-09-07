@@ -20,9 +20,7 @@ class MusicSearchBloc {
   List<StreamSubscription<dynamic>> _subscriptions;
 
   MusicSearchBloc(this._platform) {
-    _subscriptions = <StreamSubscription<dynamic>>[
-      _searchController.stream.listen(_get)
-    ];
+    _subscriptions = <StreamSubscription<dynamic>>[_searchController.stream.listen(_get)];
   }
 
   void dispose() {
@@ -45,8 +43,9 @@ class MusicSearchBloc {
 
       for (var albumObject in data) {
         albums.add(Album(
-            title: albumObject["title"],
-            artworkUrl: albumObject["artworkUrl"]));
+            title: albumObject['title'],
+            year: albumObject['year'],
+            artworkUrl: albumObject['artworkUrl']));
       }
 
       _albumsController.add(albums);

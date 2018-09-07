@@ -14,20 +14,21 @@ class AlbumListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final MusicSearchBloc iTunesSearchBloc =
-    //    MusicSearchProvider.of(context, MusicServiceName.iTunes);
+    //    MusicSearchProvider.of(context, MusicPlatform.iTunes);
     final MusicSearchBloc spotifySearchBloc =
         MusicSearchProvider.of(context, MusicPlatform.spotify);
 
-    spotifySearchBloc.search
-        .add(MusicSearch("Black Rebel Motorcycle Club", MusicSearchType.album));
+    //iTunesSearchBloc.search
+    //    .add(MusicSearch("Black Rebel Motorcycle Club", MusicSearchType.album));
+
+    spotifySearchBloc.search.add(MusicSearch("Black Rebel Motorcycle Club", MusicSearchType.album));
 
     return StreamBuilder<List<Album>>(
         stream: spotifySearchBloc.albums,
         builder: (context, snapshot) {
           return ListView.builder(
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-              itemCount:
-                  snapshot.data is List<Album> ? snapshot.data.length : 0,
+              itemCount: snapshot.data is List<Album> ? snapshot.data.length : 0,
               itemBuilder: (context, index) {
                 return _buildListItem(context, index, snapshot.data[index]);
               });
@@ -38,6 +39,7 @@ class AlbumListView extends StatelessWidget {
     return ListTile(
         contentPadding: const EdgeInsets.all(8.0),
         title: Text(item.title),
+        subtitle: Text(item.year),
         onTap: () => _onListTileTaped(context, index, item),
         leading: Hero(
             tag: AlbumListView.getLeadingHeroTag(index),
@@ -50,7 +52,6 @@ class AlbumListView extends StatelessWidget {
 
   void _onListTileTaped(BuildContext context, int index, Album item) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) =>
-            AlbumDetailPage(index: index, album: item)));
+        builder: (BuildContext context) => AlbumDetailPage(index: index, album: item)));
   }
 }
