@@ -33,7 +33,7 @@ class MusicSearchBloc {
 
   void _get(MusicSearch search) async {
     var httpClient = HttpClient();
-    var url = MusicSearchApi.getAlbumsUrl(search, this._platform);
+    var url = MusicSearchApi.getAlbumsByArtistUrl(search, this._platform);
 
     var request = await httpClient.getUrl(url);
     var response = await request.close();
