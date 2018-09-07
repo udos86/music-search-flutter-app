@@ -1,4 +1,4 @@
-enum MusicServiceName { iTunes, spotify }
+enum MusicPlatform { iTunes, spotify }
 
 enum MusicSearchType { album }
 

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:music_search_flutter_app/bloc/music-search-endpoint-builder.dart';
+import 'package:music_search_flutter_app/bloc/music-search-api.dart';
 import 'package:music_search_flutter_app/bloc/music-search.model.dart';
 import 'package:music_search_flutter_app/model/album.model.dart';
 import 'package:rxdart/subjects.dart';
@@ -11,7 +11,7 @@ class MusicSearchBloc {
   final _albumsController = BehaviorSubject<List<Album>>(seedValue: []);
   final _searchController = StreamController<MusicSearch>();
 
-  final MusicSearchEndpointBuilder _endpointBuilder;
+  final MusicPlatform _platform;
 
   Sink<MusicSearch> get search => _searchController.sink; //@Input
 
@@ -19,8 +19,10 @@ class MusicSearchBloc {
 
   List<StreamSubscription<dynamic>> _subscriptions;
 
-  MusicSearchBloc(this._endpointBuilder) {
-    _subscriptions = <StreamSubscription<dynamic>>[_searchController.stream.listen(_get)];
+  MusicSearchBloc(this._platform) {
+    _subscriptions = <StreamSubscription<dynamic>>[
+      _searchController.stream.listen(_get)
+    ];
   }
 
   void dispose() {
@@ -31,8 +33,9 @@ class MusicSearchBloc {
 
   void _get(MusicSearch search) async {
     var httpClient = HttpClient();
+    var url = MusicSearchApi.getAlbumsUrl(search, this._platform);
 
-    var request = await httpClient.getUrl(_endpointBuilder.buildAlbumsEndpoint(search));
+    var request = await httpClient.getUrl(url);
     var response = await request.close();
 
     if (response.statusCode == HttpStatus.ok) {
@@ -41,7 +44,9 @@ class MusicSearchBloc {
       var albums = List<Album>();
 
       for (var albumObject in data) {
-        albums.add(Album(title: albumObject["title"], artworkUrl: albumObject["artworkUrl"]));
+        albums.add(Album(
+            title: albumObject["title"],
+            artworkUrl: albumObject["artworkUrl"]));
       }
 
       _albumsController.add(albums);
