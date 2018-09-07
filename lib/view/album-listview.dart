@@ -13,13 +13,15 @@ class AlbumListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MusicSearchBloc iTunesSearchBloc =
-        MusicSearchProvider.of(context, MusicServiceName.iTunes);
+    //final MusicSearchBloc iTunesSearchBloc =
+    //    MusicSearchProvider.of(context, MusicServiceName.iTunes);
+    final MusicSearchBloc spotifySearchBloc =
+    MusicSearchProvider.of(context, MusicServiceName.spotify);
 
-    iTunesSearchBloc.search.add(MusicSearch("Ryan Adams", MusicSearchType.album));
+    spotifySearchBloc.search.add(MusicSearch("Black Rebel Motorcycle Club", MusicSearchType.album));
 
     return StreamBuilder<List<Album>>(
-        stream: iTunesSearchBloc.albums,
+        stream: spotifySearchBloc.albums,
         builder: (context, snapshot) {
           return ListView.builder(
               padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),

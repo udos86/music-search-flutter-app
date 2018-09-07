@@ -35,7 +35,7 @@ class MusicSearchBloc {
     var request = await httpClient.getUrl(_endpointBuilder.buildAlbumsEndpoint(search));
     var response = await request.close();
 
-    if (response.statusCode == HttpStatus.OK) {
+    if (response.statusCode == HttpStatus.ok) {
       var jsonString = await response.transform(utf8.decoder).join();
       var data = json.decode(jsonString);
       var albums = List<Album>();

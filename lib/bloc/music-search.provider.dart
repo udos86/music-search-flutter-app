@@ -11,6 +11,7 @@ class MusicSearchProvider extends InheritedWidget {
     Widget child,
   }) : super(key: key, child: child) {
     blocs[MusicServiceName.iTunes] = MusicSearchBloc(ITunesEndpointBuilder());
+    blocs[MusicServiceName.spotify] = MusicSearchBloc(SpotifyEndpointBuilder());
   }
 
   @override
